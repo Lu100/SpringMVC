@@ -10,7 +10,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 /**
  * <pre>
  * <b>描述信息</b>
- * <b>Description:</b>
+ * <b>Description:实体参数解析器，控制层以{@link User}将会自动生成一个实体后注入</b>
  *
  * <b>Author:</b> Luyongjia
  * <b>Date:</b> 2017年03月08日  11:53
