@@ -1,17 +1,14 @@
 package com.lu.springboot.controller;
 
-import com.lu.springboot.config.WebConfig;
 import com.lu.springboot.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -36,9 +33,6 @@ public class WelcomeController {
     @Value(value = "Hello World")
     private String message;
 
-    @Autowired
-    public WebConfig webConfig;
-
     @RequestMapping("{view_name}")
     public ModelAndView modelAndView(@PathVariable("view_name") String view_name, ModelAndView modelAndView) {
         modelAndView.setViewName(view_name);
@@ -61,5 +55,10 @@ public class WelcomeController {
         hashMap.put("accept", accept);
         hashMap.put("user-agent", userAgent);
         return ResponseEntity.ok(hashMap);
+    }
+
+    @RequestMapping("accept-array")
+    public ResponseEntity acceptArray(@RequestParam("ids[]") List<String> ids) {
+        return ResponseEntity.ok(ids);
     }
 }

@@ -22,7 +22,6 @@ import java.util.Date;
  *         new file.
  * </pre>
  */
-@EnableScheduling
 @Component
 public class CleanTask {
 
