@@ -10,11 +10,15 @@
     function send() {
         var data = {};
         data.ids = ["1", "2", "3"];
-        $.ajax({
-            type: "post",
-            url: "${ctx}/accept-array",
-            data: data
-        })
+        data.names = ["Tony", "Jack", "Mary"],
+            $.ajax({
+                type: "post",
+                url: "${ctx}/accept-array",
+                data: data,
+                success: function (result) {
+                    console.info(result);
+                }
+            })
     }
 </script>
 <body>

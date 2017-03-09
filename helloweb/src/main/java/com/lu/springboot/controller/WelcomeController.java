@@ -7,9 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * <pre>
@@ -58,7 +56,7 @@ public class WelcomeController {
     }
 
     @RequestMapping("accept-array")
-    public ResponseEntity acceptArray(@RequestParam("ids[]") List<String> ids) {
-        return ResponseEntity.ok(ids);
+    public ResponseEntity acceptArray(@RequestParam("ids[]") List<String> ids, @RequestParam("names[]") List<String> names) {
+        return ResponseEntity.ok(Arrays.asList(ids, names));
     }
 }
