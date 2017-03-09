@@ -4,9 +4,11 @@ import com.lu.springboot.config.WebConfig;
 import com.lu.springboot.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashMap;
@@ -31,7 +33,7 @@ import java.util.Map;
 @RequestMapping("/")
 public class WelcomeController {
 
-    @Value("${application.message:Hello World}")
+    @Value(value = "Hello World")
     private String message;
 
     @Autowired
@@ -53,13 +55,11 @@ public class WelcomeController {
         return ResponseEntity.ok(user);
     }
 
-
-    @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ResponseBody
-    public Object handleMyRuntimeException(Exception exception) {
-        HashMap<Object, Object> objectObjectHashMap = new HashMap<>();
-        objectObjectHashMap.put("exception", exception.getMessage());
-        return objectObjectHashMap;
+    @RequestMapping("accept-message")
+    public ResponseEntity acceptMessage(@RequestHeader("accept") String accept, @RequestHeader("user-agent") String userAgent) {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("accept", accept);
+        hashMap.put("user-agent", userAgent);
+        return ResponseEntity.ok(hashMap);
     }
 }
