@@ -39,11 +39,11 @@ public class TimeCounterAdvice {
             result = joinPoint.proceed();
         } catch (Throwable e) {
             long exceptionTime = System.currentTimeMillis();
-            logger.error("执行[{}]出现异常，耗时={}", methodName, calculateMillis(exceptionTime - start));
+            logger.error("[{}]执行出现异常，耗时={}", methodName, calculateMillis(exceptionTime - start));
             throw e;
         }
         long end = System.currentTimeMillis();
-        logger.info("执行[{}]完成，耗时={}", methodName, calculateMillis(end - start));
+        logger.info("[{}]执行完成，耗时={}", methodName, calculateMillis(end - start));
         return result;
     }
 

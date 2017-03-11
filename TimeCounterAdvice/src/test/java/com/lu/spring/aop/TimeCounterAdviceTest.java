@@ -33,4 +33,8 @@ public class TimeCounterAdviceTest {
     public void test() throws InterruptedException {
         testClass.testMethod();
     }
+    @Test(expected = RuntimeException.class)
+    public void testException(){
+        testClass.testException();
+    }
 }

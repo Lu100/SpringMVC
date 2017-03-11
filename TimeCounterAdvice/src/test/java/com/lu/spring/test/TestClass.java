@@ -24,4 +24,10 @@ public class TestClass {
     public void testMethod() throws InterruptedException {
         Thread.sleep(1500);
     }
+
+    @TimeCounter
+    public void testException() {
+        throw new RuntimeException();
+    }
+
 }
