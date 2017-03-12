@@ -1,10 +1,10 @@
 package com.lu.springboot.config;
 
+import com.lu.spring.aop.TimeCounterAdvice;
 import com.lu.springboot.args.UserResolver;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
@@ -39,5 +39,10 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         InternalResourceViewResolver internalResourceViewResolver = new InternalResourceViewResolver("/WEB-INF/views/", ".jsp");
         registry.viewResolver(internalResourceViewResolver);
         super.configureViewResolvers(registry);
+    }
+
+    @Bean
+    public TimeCounterAdvice timeCounterAdvice(){
+        return new TimeCounterAdvice();
     }
 }

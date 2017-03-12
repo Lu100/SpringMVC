@@ -5,7 +5,7 @@
 <head>
     <title>This is title</title>
 </head>
-<script src="${ctx}/static/jquery/jquery-3.1.1.min.js"></script>
+<script src="${ctx}/resources/static/jquery/jquery-3.1.1.min.js"></script>
 <script>
     function send() {
         var data = {};
