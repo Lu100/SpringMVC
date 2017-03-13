@@ -30,4 +30,28 @@ public class TestClass {
         throw new RuntimeException();
     }
 
+    /**
+     * 测试基本数据类型调用时间
+     */
+    @TimeCounter
+    public void testPrimitiveTypeExecute() {
+        long a = 0;
+        for (long i = 0; i <= Integer.MAX_VALUE; i++) {
+            a += i;
+        }
+        System.out.println(a);
+    }
+
+    /**
+     * 测试包装类型调用时间
+     */
+    @TimeCounter
+    public void testWrapperExecute() {
+        Long a = 0L;
+        for (long i = 0; i <= Integer.MAX_VALUE; i++) {
+            a += i;
+        }
+        System.out.println(a);
+    }
+
 }

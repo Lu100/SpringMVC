@@ -33,8 +33,27 @@ public class TimeCounterAdviceTest {
     public void test() throws InterruptedException {
         testClass.testMethod();
     }
+
     @Test(expected = RuntimeException.class)
-    public void testException(){
+    public void testException() {
         testClass.testException();
+    }
+
+    @Test
+    public void testPrimitiveType() {
+        testClass.testPrimitiveTypeExecute();
+        //将基本数据类型转换为包装类需要时间
+        //两个方法实现功能相同，但是执行时间的差距很大
+        testClass.testWrapperExecute();
+    }
+
+    /**
+     * 会出现异常
+     */
+    @Test(expected = ArrayStoreException.class)
+    public void errorCode() {
+        Object[] objectArray = new Long[1];
+        objectArray[0] = "Hello World";
+
     }
 }
