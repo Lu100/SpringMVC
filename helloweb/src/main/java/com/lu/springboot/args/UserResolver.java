@@ -7,21 +7,6 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-/**
- * <pre>
- * <b>描述信息</b>
- * <b>Description:实体参数解析器，控制层以{@link User}将会自动生成一个实体后注入</b>
- *
- * <b>Author:</b> Luyongjia
- * <b>Date:</b> 2017年03月08日  11:53
- * <b>Copyright:</b> Copyright ©2016 tempus.cn. All rights reserved.
- * <b>Changelog:</b>
- *   Ver   Date                             Author                Detail
- *   ----------------------------------------------------------------------
- *   0.1   2017年03月08日  11:53   Luyongjia
- *         new file.
- * </pre>
- */
 public class UserResolver implements HandlerMethodArgumentResolver {
 
     @Override
