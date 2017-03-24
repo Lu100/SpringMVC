@@ -1,4 +1,4 @@
-package com.lu.guava;
+package com.lu.guava.base;
 
 import com.google.common.base.Preconditions;
 import org.junit.Test;

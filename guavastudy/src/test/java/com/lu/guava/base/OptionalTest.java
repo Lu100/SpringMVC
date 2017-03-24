@@ -1,4 +1,4 @@
-package com.lu.guava;
+package com.lu.guava.base;
 
 import org.junit.Test;
 

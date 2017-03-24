@@ -1,4 +1,4 @@
-package com.lu.guava;
+package com.lu.guava.base;
 
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Lists;
@@ -12,7 +12,7 @@ public class OrderingTest {
 
     @Test
     public void testOrdering() {
-        MyOrdering myOrdering=new MyOrdering();
+        MyOrdering myOrdering = new MyOrdering();
         ArrayList<String> strings = Lists.newArrayList("1", "4", "2", "3");
         strings.sort(myOrdering);
         System.out.println(strings);

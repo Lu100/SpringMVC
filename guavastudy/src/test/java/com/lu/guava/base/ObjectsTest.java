@@ -1,4 +1,4 @@
-package com.lu.guava;
+package com.lu.guava.base;
 
 import com.lu.guava.pojo.TestObject;
 import org.junit.Test;
