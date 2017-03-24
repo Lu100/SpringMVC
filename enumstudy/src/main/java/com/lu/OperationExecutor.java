@@ -9,10 +9,11 @@ public class OperationExecutor {
      */
     public static void main(String[] args) {
         for (BaseOperation baseOperation : BaseOperation.values()) {
-            baseOperation.apply(1.42,2);
+            baseOperation.apply(1.42, 2);
         }
-        for (ExtensionOperations extensionOperations : ExtensionOperations.values()) {
-            extensionOperations.apply(5,4);
+        //通过class获取泛型常量
+        for (ExtensionOperations extensionOperations : ExtensionOperations.class.getEnumConstants()) {
+            extensionOperations.apply(5, 4);
         }
     }
 
