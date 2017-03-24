@@ -16,10 +16,10 @@ import java.util.Random;
  * 很少会直接使用Multimap接口，更多时候你会用ListMultimap或SetMultimap接口，它们分别把键映射到List或Set。
  */
 public class MultimapTest {
-    private String name1 = "queue1";
-    private String name2 = "queue2";
-    private String name3 = "queue3";
-    private String name4 = "queue4";
+    private static final String name1 = "queue1";
+    private static final String name2 = "queue2";
+    private static final String name3 = "queue3";
+    private static final String name4 = "queue4";
 
     @Test
     public void test1() {
