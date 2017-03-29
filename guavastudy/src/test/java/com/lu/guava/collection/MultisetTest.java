@@ -22,6 +22,7 @@ public class MultisetTest {
         comparables.add("12");
         comparables.add("12");
         comparables.add("12");
-        System.out.println(comparables);
+        assert comparables.count("123123")==7;
+        assert comparables.count("12")==4;
     }
 }

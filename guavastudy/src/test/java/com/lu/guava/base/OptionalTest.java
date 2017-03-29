@@ -27,4 +27,10 @@ public class OptionalTest {
         System.out.println(empty.orElse("hello"));
     }
 
+    @Test(expected = NullPointerException.class)
+    public void InsertNullValue(){
+        Optional<Object> o = Optional.of(null);
+        o.ifPresent(System.out::println);
+    }
+
 }

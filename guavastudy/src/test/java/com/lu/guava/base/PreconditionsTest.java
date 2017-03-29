@@ -23,4 +23,10 @@ public class PreconditionsTest {
         }
     }
 
+    @Test
+    public void checkArgument2(){
+        
+    }
+
+
 }

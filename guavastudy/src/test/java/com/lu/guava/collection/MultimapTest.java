@@ -24,10 +24,10 @@ public class MultimapTest {
     @Test
     public void test1() {
         ArrayListMultimap<String, Integer> multimap = ArrayListMultimap.create();
-        for (int i = 0, bound = random.nextInt(32); i < bound; i++) insert(multimap, name1);
-        for (int i = 0, bound = random.nextInt(32); i < bound; i++) insert(multimap, name2);
-        for (int i = 0, bound = random.nextInt(32); i < bound; i++) insert(multimap, name3);
-        for (int i = 0, bound = random.nextInt(32); i < bound; i++) insert(multimap, name4);
+        for (int i = 0, boundary = random.nextInt(32); i < boundary; i++) insert(multimap, name1);
+        for (int i = 0, boundary = random.nextInt(32); i < boundary; i++) insert(multimap, name2);
+        for (int i = 0, boundary = random.nextInt(32); i < boundary; i++) insert(multimap, name3);
+        for (int i = 0, boundary = random.nextInt(32); i < boundary; i++) insert(multimap, name4);
         System.out.println(multimap);
     }
 
