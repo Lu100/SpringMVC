@@ -1,7 +1,7 @@
 package com.lu.threadpool;
 
 import com.lu.threadpool.thread.LongEventThreadTask;
-import com.lu.threadpool.threadfactory.MyThreadFactory;
+import com.lu.threadpool.threadfactory.LongEventHandlerThreadFactory;
 import org.junit.Test;
 
 import java.util.UUID;
@@ -16,7 +16,7 @@ public class ThreadPoolTest {
     @Test
     public void testThreadPool() {
         //缓存型线程池
-        ExecutorService executorService = Executors.newCachedThreadPool(MyThreadFactory.getInstance());
+        ExecutorService executorService = Executors.newCachedThreadPool(LongEventHandlerThreadFactory.getInstance());
         //固定长度线程池
 //        ExecutorService executorService = Executors.newFixedThreadPool(32, MyThreadFactory.getInstance());
         //单进程线程池

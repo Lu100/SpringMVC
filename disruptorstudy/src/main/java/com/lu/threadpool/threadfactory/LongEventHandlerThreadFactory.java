@@ -6,21 +6,23 @@ import java.util.concurrent.ThreadFactory;
 /**
  * Created by Administrator on 2017/3/30.
  */
-public class MyThreadFactory implements ThreadFactory {
+public class LongEventHandlerThreadFactory implements ThreadFactory {
 
-    private static volatile MyThreadFactory factory = new MyThreadFactory();
+    private static volatile LongEventHandlerThreadFactory factory = new LongEventHandlerThreadFactory();
 
-    private MyThreadFactory() {
+    private long counter = 1;
+
+    private LongEventHandlerThreadFactory() {
     }
 
-    public static MyThreadFactory getInstance() {
+    public static LongEventHandlerThreadFactory getInstance() {
         return factory;
     }
 
     public Thread newThread(Runnable r) {
         Thread thread = new Thread(r);
-        String name = String.format("线程【%d】", pid());
-        String message = String.format("[%s]已经被创建", name);
+        String name = String.format("消费线程【%d】", pid());
+        String message = String.format("[%s]已经被创建(已经创建了%d条线程)", name, counter++);
         System.out.println(message);
         thread.setName(name);
         return thread;

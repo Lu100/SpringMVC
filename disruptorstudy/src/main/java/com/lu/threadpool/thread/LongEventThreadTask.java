@@ -14,7 +14,7 @@ public class LongEventThreadTask implements Runnable {
         System.out.println(Thread.currentThread().getName() + String.format("：【%s】的命令!执行完成！", command));
     }
 
-    public static void Sleep() {
+    private static void Sleep() {
         Sleep(5000);
     }
 

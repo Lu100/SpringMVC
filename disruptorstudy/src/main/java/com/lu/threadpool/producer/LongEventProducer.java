@@ -16,7 +16,7 @@ public class LongEventProducer implements Runnable {
 
     private int currentValue = 0;
 
-    private static final long MAXIMUM = 1 << 4;
+    private static final long MAXIMUM = 1 << 10;
 
     //持续推送数据
     public void run() {
@@ -27,7 +27,6 @@ public class LongEventProducer implements Runnable {
                 LongEvent event = buffer.get(sequence);
                 event.setValue(++currentValue);
                 event.setName(name);
-                Thread.yield();
             } finally {
                 //将事件推送到缓冲区
                 buffer.publish(sequence);
