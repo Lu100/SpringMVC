@@ -28,10 +28,8 @@ public class Application {
 
     public static void main(String[] args) {
         EventFactory<LongEvent> longEventEventFactory = new LongEventFactory();
-//        //双线程消费事件
-//        ExecutorService executor1 = Executors.newFixedThreadPool(2,MyThreadFactory.getInstance());
         //八线程生产事件
-        ExecutorService executor2 = Executors.newFixedThreadPool(THREAD_SIZE, LongEventProducerThreadFactory.getInstance());
+        ExecutorService executorService = Executors.newFixedThreadPool(THREAD_SIZE, LongEventProducerThreadFactory.getInstance());
 
         Disruptor<LongEvent> disruptor = new Disruptor<>(longEventEventFactory, RING_BUFFER_SIZE, LongEventHandlerThreadFactory.getInstance(), ProducerType.MULTI, new SleepingWaitStrategy());
 
@@ -42,10 +40,10 @@ public class Application {
         disruptor.start();
 
         for (int i = 0; i < THREAD_SIZE; i++) {
-            executor2.execute(new LongEventProducer(disruptor.getRingBuffer()));
+            executorService.execute(new LongEventProducer(disruptor.getRingBuffer()));
         }
-        executor2.shutdown();
-        while (!executor2.isTerminated()) {
+        executorService.shutdown();
+        while (!executorService.isTerminated()) {
             LongEventThreadTask.Sleep(5000);
         }
         disruptor.shutdown();
