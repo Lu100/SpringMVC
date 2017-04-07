@@ -2,10 +2,11 @@ package com.lu.excel.entity;
 
 import com.lu.excel.annotation.CustomAnnotation;
 import com.lu.excel.annotation.CellMarker;
-import com.lu.excel.support.IntegerCellHandler;
-import com.lu.excel.support.LongCellHandler;
-import com.lu.excel.support.SimpleDateCellHandler;
-import com.lu.excel.support.StringCellHandler;
+import com.lu.excel.support.handler.IntegerCellHandler;
+import com.lu.excel.support.handler.LongCellHandler;
+import com.lu.excel.support.handler.SimpleDateCellHandler;
+import com.lu.excel.support.handler.StringCellHandler;
+import com.lu.excel.statistics.CounterStatistics;
 
 import java.util.Date;
 
@@ -16,7 +17,7 @@ public class User {
     private String name;
     @CellMarker(handler = IntegerCellHandler.class, title = "年龄")
     private Integer age;
-    @CellMarker(handler = LongCellHandler.class, title = "身份证", width = 1 << 5, sequence = 3)
+    @CellMarker(handler = LongCellHandler.class, title = "身份证", width = 1 << 5, sequence = 3, statistics = CounterStatistics.class)
     private long identityNumber;
     @CellMarker(handler = SimpleDateCellHandler.class, title = "出生日期", width = 1 << 5, sequence = 2)
     private Date birthday;

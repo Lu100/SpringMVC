@@ -1,6 +1,8 @@
 package com.lu.excel.annotation;
 
 import com.lu.excel.handler.AbstractCellHandler;
+import com.lu.excel.statistics.AbstractStatistics;
+import com.lu.excel.support.statistics.NoStatistics;
 
 import java.lang.annotation.*;
 
@@ -44,4 +46,8 @@ public @interface CellMarker {
      */
     Class<? extends AbstractCellHandler> handler();
 
+    /**
+     * 指定统计处理器
+     */
+    Class<? extends AbstractStatistics> statistics() default NoStatistics.class;
 }

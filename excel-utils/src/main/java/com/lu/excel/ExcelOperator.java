@@ -4,7 +4,9 @@ import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
 import com.lu.excel.annotation.CellMarker;
 import com.lu.excel.handler.AbstractCellHandler;
-import com.lu.excel.support.StringCellHandler;
+import com.lu.excel.statistics.AbstractStatistics;
+import com.lu.excel.support.handler.StringCellHandler;
+import com.lu.excel.support.statistics.NoStatistics;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -115,6 +117,7 @@ public class ExcelOperator<T> {
      * 完成操作
      */
     public File ok() throws IOException {
+        generateDetail();
         File file = ExcelUtils.saveWorkbook(workbook);
         finishFlag = true;
         return file;
@@ -124,6 +127,7 @@ public class ExcelOperator<T> {
      * 完成操作
      */
     public File ok(String path) throws IOException {
+        generateDetail();
         File file = ExcelUtils.saveWorkbook(workbook, path);
         finishFlag = true;
         return file;
@@ -133,6 +137,7 @@ public class ExcelOperator<T> {
      * 完成操作
      */
     public File ok(File file) throws IOException {
+        generateDetail();
         File excel = ExcelUtils.saveWorkbook(workbook, file);
         finishFlag = true;
         return excel;
@@ -157,8 +162,8 @@ public class ExcelOperator<T> {
      */
     private void setColumn(T data, Workbook workbook, Sheet sheet, Row row) {
         int cellNumber = 0;
-        for (ScannerResult scannerResult : scannerResults) {
-            setValue(workbook, sheet, data, cellNumber++, row, scannerResult);
+        for (ScanResult scanResult : scanResults) {
+            setValue(workbook, sheet, data, cellNumber++, row, scanResult);
         }
     }
 
@@ -171,20 +176,21 @@ public class ExcelOperator<T> {
      * @param cellNumber 表格列数
      * @param row        当前行
      */
-    private void setValue(Workbook workbook, Sheet sheet, T t, int cellNumber, Row row, ScannerResult scannerResult) {
+    private void setValue(Workbook workbook, Sheet sheet, T t, int cellNumber, Row row, ScanResult scanResult) {
         try {
-            if (scannerResult.type == Type.field) {
-                Field declaredField = t.getClass().getDeclaredField(scannerResult.name);
+            if (scanResult.type == Type.field) {
+                Field declaredField = t.getClass().getDeclaredField(scanResult.name);
                 declaredField.setAccessible(true);
                 Object o = declaredField.get(t);
-                AbstractCellHandler handler = HandlerManager.getInstance().getHandler(scannerResult.handlerClass);
+                AbstractCellHandler handler = HandlerManager.getInstance().getHandler(scanResult.handlerClass);
                 handler.handle(o, workbook, sheet, row, row.createCell(cellNumber));
+                scanResult.doValues(o);
             }
-            if (scannerResult.type == Type.method) {
-                Method method = t.getClass().getDeclaredMethod(scannerResult.name);
+            if (scanResult.type == Type.method) {
+                Method method = t.getClass().getDeclaredMethod(scanResult.name);
                 method.setAccessible(true);
                 Object result = method.invoke(t);
-                AbstractCellHandler handler = HandlerManager.getInstance().getHandler(scannerResult.handlerClass);
+                AbstractCellHandler handler = HandlerManager.getInstance().getHandler(scanResult.handlerClass);
                 handler.handle(result, workbook, sheet, row, row.createCell(cellNumber));
             }
         } catch (Exception e) {
@@ -201,17 +207,33 @@ public class ExcelOperator<T> {
         StringCellHandler handler = HandlerManager.getInstance().getHandler(StringCellHandler.class);
         Sheet sheet = workbook.getSheetAt(0);
         Row row = sheet.createRow(0);
-        for (ScannerResult scannerResult : scannerResults) {
-            sheet.setColumnWidth(counter, scannerResult.width * 256);
-            handler.handle(scannerResult.title, workbook, sheet, row, row.createCell(counter++));
+        for (ScanResult scanResult : scanResults) {
+            sheet.setColumnWidth(counter, scanResult.width * 256);
+            handler.handle(scanResult.title, workbook, sheet, row, row.createCell(counter++));
         }
+    }
+
+    /**
+     * 生成统计行
+     */
+    private void generateDetail() {
+        int counter = 0;
+        currentRow++;
+        Row row = sheet.createRow(currentRow);
+        for (ScanResult scanResult : scanResults) {
+            sheet.setColumnWidth(counter, scanResult.width * 256);
+            if (scanResult.getAbstractStatistics() != null)
+                scanResult.getAbstractStatistics().show(workbook, sheet, row, row.createCell(counter));
+            counter++;
+        }
+
     }
 
 
     /**
      * 参数名称与处理类的映射器
      */
-    private final List<ScannerResult> scannerResults = Lists.newArrayList();
+    private final List<ScanResult> scanResults = Lists.newArrayList();
 
     /**
      * 检查这个类是否已经经过缓存
@@ -219,8 +241,8 @@ public class ExcelOperator<T> {
      * @param clazz 需要检查的类型
      */
     private void checkClass(Class clazz) {
-        if (scannerResults.isEmpty()) {
-            synchronized (scannerResults) {
+        if (scanResults.isEmpty()) {
+            synchronized (scanResults) {
                 buildHandlerMap(clazz);
             }
         }
@@ -234,32 +256,43 @@ public class ExcelOperator<T> {
         for (Field field : declaredFields) {
             //使用Spring的注解工具类
             CellMarker cell = AnnotationUtils.getAnnotation(field, CellMarker.class);
-            if (cell != null) {
-                ScannerResult scannerResult = new ScannerResult(Type.field, field.getName(), cell.title(), cell.sequence(), cell.width(), cell.handler());
-                scannerResults.add(scannerResult);
-            }
+            putScanResultToCollection(cell, Type.field, field.getName());
         }
         Method[] declaredMethods = targetClass.getDeclaredMethods();
         for (Method declaredMethod : declaredMethods) {
             //使用Spring的注解工具类
             CellMarker cell = AnnotationUtils.getAnnotation(declaredMethod, CellMarker.class);
-            if (cell != null) {
-                ScannerResult scannerResult = new ScannerResult(Type.method, declaredMethod.getName(), cell.title(), cell.sequence(), cell.width(), cell.handler());
-                scannerResults.add(scannerResult);
-            }
+            putScanResultToCollection(cell, Type.method, declaredMethod.getName());
         }
-        Collections.sort(scannerResults);
+        Collections.sort(scanResults);
     }
 
-    private class ScannerResult implements Comparable<ScannerResult> {
+    private void putScanResultToCollection(CellMarker cellMarker, Type type, String name) {
+        if (cellMarker != null) {
+            ScanResult scanResult = new ScanResult(type, name, cellMarker.title(), cellMarker.sequence(), cellMarker.width(), cellMarker.handler());
+            if (!cellMarker.statistics().equals(NoStatistics.class)) {
+                try {
+                    //获取统计接口
+                    AbstractStatistics abstractStatistics = cellMarker.statistics().newInstance();
+                    scanResult.setAbstractStatistics(abstractStatistics);
+                } catch (InstantiationException | IllegalAccessException e) {
+                    System.err.println(String.format("[%s] can not be instantiation!", cellMarker.statistics().getName()));
+                }
+            }
+            scanResults.add(scanResult);
+        }
+    }
+
+    private class ScanResult implements Comparable<ScanResult> {
         Type type;
         String name;
         String title;
         int sequence;
         int width;
         Class<? extends AbstractCellHandler> handlerClass;
+        AbstractStatistics abstractStatistics;
 
-        public ScannerResult(Type type, String name, String title, int sequence, int width, Class<? extends AbstractCellHandler> handlerClass) {
+        ScanResult(Type type, String name, String title, int sequence, int width, Class<? extends AbstractCellHandler> handlerClass) {
             this.type = type;
             this.name = name;
             this.title = title;
@@ -268,11 +301,26 @@ public class ExcelOperator<T> {
             this.handlerClass = handlerClass;
         }
 
+        public void doValues(Object data) {
+            if (abstractStatistics != null) {
+                abstractStatistics.values(data);
+            }
+        }
+
+
+        public AbstractStatistics getAbstractStatistics() {
+            return abstractStatistics;
+        }
+
+        public void setAbstractStatistics(AbstractStatistics abstractStatistics) {
+            this.abstractStatistics = abstractStatistics;
+        }
+
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            ScannerResult that = (ScannerResult) o;
+            ScanResult that = (ScanResult) o;
             return Objects.equal(name, that.name);
         }
 
@@ -282,7 +330,7 @@ public class ExcelOperator<T> {
         }
 
         @Override
-        public int compareTo(ScannerResult that) {
+        public int compareTo(ScanResult that) {
             return this.sequence - that.sequence;
         }
     }

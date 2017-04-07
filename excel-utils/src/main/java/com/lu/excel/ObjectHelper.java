@@ -2,11 +2,14 @@ package com.lu.excel;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
+import org.apache.commons.collections4.CollectionUtils;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * auto copy the same name field to target
@@ -56,6 +59,17 @@ public class ObjectHelper {
             fieldMatcher.copy(instance, data);
         }
         return instance;
+    }
+
+
+    public static  <T, B> Collection<T> copyOfCollection(Class<T> target, Collection<B> data) {
+        if (CollectionUtils.isNotEmpty(data)) {
+            List<T> ts = Lists.newLinkedList();
+            data.forEach(element->ts.add(copy(target,element)));
+            return ts;
+        } else {
+            return CollectionUtils.emptyCollection();
+        }
     }
 
     private static class ClassComparator {
