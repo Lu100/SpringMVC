@@ -22,15 +22,6 @@ import java.util.List;
  * <pre>
  * <b>描述信息</b>
  * <b>Description:表格操作对象</b>
- *
- * <b>Author:</b> Luyongjia
- * <b>Date:</b> 2017年04月06日  16:03
- * <b>Copyright:</b> Copyright ©2016 tempus.cn. All rights reserved.
- * <b>Changelog:</b>
- *   Ver   Date                             Author                Detail
- *   ----------------------------------------------------------------------
- *   0.1   2017年04月06日  16:03   Luyongjia
- *         new file.
  * </pre>
  * 需要通过静态方法创建(ExcelOperator.newExcelOperator)
  */

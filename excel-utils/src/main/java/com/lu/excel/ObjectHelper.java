@@ -1,11 +1,8 @@
-package com.tempus.ubp.dps.utils.excel;
+package com.lu.excel;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import org.apache.commons.lang.ObjectUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -15,7 +12,7 @@ import java.util.Collection;
  * auto copy the same name field to target
  */
 public class ObjectHelper {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ObjectHelper.class);
+//    private static final Logger LOGGER = LoggerFactory.getLogger(ObjectHelper.class);
     private static final Multimap<ClassComparator, FieldMatcher> classCache = HashMultimap.create();
 
     /**
@@ -50,7 +47,7 @@ public class ObjectHelper {
                                 classCache.put(classComparator, fieldMatcher);
                             }
                         } catch (NoSuchFieldException e) {
-                            LOGGER.error("[{}] does not exist in [{}]", declaredField.getName(), target.getName());
+//                            LOGGER.error("[{}] does not exist in [{}]", declaredField.getName(), target.getName());
                         }
                 }
             }
@@ -100,7 +97,7 @@ public class ObjectHelper {
                 Object result = dataField.get(data);
                 targetField.set(target, result);
             } catch (Exception e) {
-                LOGGER.error("FieldMatcher.copy [" + targetField.getName() + "]+ can not be resolve!", e);
+//                LOGGER.error("FieldMatcher.copy [" + targetField.getName() + "]+ can not be resolve!", e);
             }
         }
 

@@ -11,21 +11,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-/**
- * <pre>
- * <b>描述信息</b>
- * <b>Description:</b>
- *
- * <b>Author:</b> Luyongjia
- * <b>Date:</b> 2017年04月06日  16:30
- * <b>Copyright:</b> Copyright ©2016 tempus.cn. All rights reserved.
- * <b>Changelog:</b>
- *   Ver   Date                             Author                Detail
- *   ----------------------------------------------------------------------
- *   0.1   2017年04月06日  16:30   Luyongjia
- *         new file.
- * </pre>
- */
 public class ExcelOperatorTest {
     @Test
     public void testOperator() throws IOException {

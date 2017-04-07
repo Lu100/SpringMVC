@@ -8,15 +8,6 @@ import java.lang.annotation.*;
  * <pre>
  * <b>描述信息</b>
  * <b>Description: 单元格注解</b>
- *
- * <b>Author:</b> Luyongjia
- * <b>Date:</b> 2017年04月06日  10:38
- * <b>Copyright:</b> Copyright ©2016 tempus.cn. All rights reserved.
- * <b>Changelog:</b>
- *   Ver   Date                             Author                Detail
- *   ----------------------------------------------------------------------
- *   0.1   2017年04月06日  10:38   Luyongjia
- *         new file.
  * </pre>
  * 可以标记：<br/>
  * 1、成员变量,请参考测试类中的[com.lu.excel.entity.User]<br/>

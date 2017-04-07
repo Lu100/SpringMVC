@@ -9,21 +9,6 @@ import com.lu.excel.support.StringCellHandler;
 
 import java.util.Date;
 
-/**
- * <pre>
- * <b>描述信息</b>
- * <b>Description:</b>
- *
- * <b>Author:</b> Luyongjia
- * <b>Date:</b> 2017年04月06日  10:55
- * <b>Copyright:</b> Copyright ©2016 tempus.cn. All rights reserved.
- * <b>Changelog:</b>
- *   Ver   Date                             Author                Detail
- *   ----------------------------------------------------------------------
- *   0.1   2017年04月06日  10:55   Luyongjia
- *         new file.
- * </pre>
- */
 public class User {
     @CellMarker(handler = StringCellHandler.class, title = "性别", sequence = 2, width = 1 << 3)
     public static final String GENDER = "男";
