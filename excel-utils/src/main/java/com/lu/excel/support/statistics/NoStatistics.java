@@ -10,7 +10,7 @@ import org.apache.poi.ss.usermodel.Workbook;
  * 不进行统计
  * Created by Administrator on 2017/4/7.
  */
-public final class NoStatistics extends AbstractStatistics<Void> {
+public final class NoStatistics implements AbstractStatistics<Void> {
     @Override
     public void values(Void value) {
         throw new UnsupportedOperationException();

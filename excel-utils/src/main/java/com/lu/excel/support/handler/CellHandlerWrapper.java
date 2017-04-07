@@ -6,7 +6,7 @@ import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
 
 
-public abstract class CellHandlerWrapper<T> extends AbstractCellHandler<T> {
+public abstract class CellHandlerWrapper<T> implements AbstractCellHandler<T> {
     /**
      * 设置居中
      */

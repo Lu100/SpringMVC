@@ -8,6 +8,6 @@ import org.apache.poi.ss.usermodel.*;
  * <b>Description: 表格处理抽象类</b>
  * </pre>
  */
-public abstract class AbstractCellHandler<T> {
-    public abstract void handle(T data, Workbook workbook, Sheet sheet, Row row, Cell cell);
+public interface AbstractCellHandler<T> {
+    void handle(T data, Workbook workbook, Sheet sheet, Row row, Cell cell);
 }

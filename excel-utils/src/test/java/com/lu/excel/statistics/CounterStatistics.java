@@ -5,7 +5,7 @@ import org.apache.poi.ss.usermodel.*;
 /**
  * Created by Administrator on 2017/4/7.
  */
-public class CounterStatistics extends AbstractStatistics<Number> {
+public class CounterStatistics implements AbstractStatistics<Number> {
     private int counter = 0;
 
     @Override
