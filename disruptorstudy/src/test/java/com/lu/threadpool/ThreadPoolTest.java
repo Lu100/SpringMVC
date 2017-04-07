@@ -15,7 +15,7 @@ public class ThreadPoolTest {
 
     @Test
     public void testThreadPool() {
-        //缓存型线程池
+        //缓存型线程池 自动增长
         ExecutorService executorService = Executors.newCachedThreadPool(LongEventHandlerThreadFactory.getInstance());
         //固定长度线程池
 //        ExecutorService executorService = Executors.newFixedThreadPool(32, MyThreadFactory.getInstance());
