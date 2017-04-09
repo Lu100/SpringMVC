@@ -31,7 +31,7 @@ public class ExcelOperatorTest {
         for (int i = 0; i < 10; i++) {
             User user = new User();
             user.setAge(1);
-            user.setIdentityNumber(random.nextLong());
+            user.setIdentityNumber(Math.abs(random.nextLong()));
             user.setName("lu");
             user.setBirthday(new Date());
             userList.add(user);

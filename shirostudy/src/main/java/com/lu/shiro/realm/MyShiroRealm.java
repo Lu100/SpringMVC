@@ -1,15 +1,22 @@
 package com.lu.shiro.realm;
 
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.UsernamePasswordToken;
+import com.lu.shiro.mapper.UserMapper;
+import com.lu.shiro.pojo.User;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.realm.Realm;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-/**
- * Created by Administrator on 2017/4/3.
- */
+@Component
 public class MyShiroRealm implements Realm {
+
+    private final UserMapper userMapper;
+
+    @Autowired
+    public MyShiroRealm(UserMapper userMapper) {
+        this.userMapper = userMapper;
+    }
+
     public String getName() {
         return "MyShiroRealm";
     }
@@ -20,8 +27,15 @@ public class MyShiroRealm implements Realm {
 
     public AuthenticationInfo getAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         UsernamePasswordToken cast = cast(token);
-        
-        return null;
+        boolean exist = userMapper.checkUserExist(cast.getUsername());
+        if (!exist) {
+            throw new UnknownAccountException(String.format("[%s]用户不存在", cast.getUsername()));
+        }
+        User user = userMapper.selectByNameAndPassword(cast.getUsername(), String.valueOf(cast.getPassword()));
+        if (user == null) {
+            throw new IncorrectCredentialsException(String.format("[%s]密码错误", cast.getUsername()));
+        }
+        return new SimpleAuthenticationInfo(token.getPrincipal(), token.getCredentials(), getName());
     }
 
     private UsernamePasswordToken cast(AuthenticationToken token) {

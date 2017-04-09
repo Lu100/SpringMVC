@@ -9,11 +9,11 @@ import org.springframework.context.annotation.Configuration;
 /**
  * Created by Administrator on 2017/4/3.
  */
-@ComponentScan
+@ComponentScan("com.lu.shiro")
 @Configuration
 @EnableConfigurationProperties
 @EnableAutoConfiguration
 @SpringBootConfiguration
-public class MyConfigure {
+public class ApplicationConfigure {
 
 }
