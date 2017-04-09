@@ -3,6 +3,7 @@
 ###想要运行可以直接查看测试类
 ---
 ###想要运行Spring相关整合需要修改datasource.properties
+```mysql
 
 create table users
 (
@@ -15,4 +16,4 @@ create table users
 	constraint users_username_uindex
 		unique (username)
 );
-
+```
