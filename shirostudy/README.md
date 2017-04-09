@@ -7,13 +7,10 @@
 
 create table users
 (
-	id int not null auto_increment
-		primary key,
+	id int not null auto_increment primary key,
 	username varchar(32) not null,
 	password varchar(32) not null,
-	constraint users_id_uindex
-		unique (id),
-	constraint users_username_uindex
-		unique (username)
+	constraint users_id_uindex unique (id),
+	constraint users_username_uindex unique (username)
 );
 ```
