@@ -8,6 +8,7 @@ import org.apache.commons.collections4.CollectionUtils;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -15,7 +16,7 @@ import java.util.List;
  * auto copy the same name field to target
  */
 public class ObjectHelper {
-//    private static final Logger LOGGER = LoggerFactory.getLogger(ObjectHelper.class);
+    //    private static final Logger LOGGER = LoggerFactory.getLogger(ObjectHelper.class);
     private static final Multimap<ClassComparator, FieldMatcher> classCache = HashMultimap.create();
 
     /**
@@ -37,12 +38,21 @@ public class ObjectHelper {
             throw new RuntimeException(target.getName() + "can not be instance!", e);
         }
         ClassComparator classComparator = new ClassComparator(target.getClass(), data.getClass());
-        Field[] declaredFields = data.getClass().getDeclaredFields();
+
+
+        Class currentClass = data.getClass();
+        List<Field> fields = Lists.newLinkedList();
+        while (currentClass != null && !(currentClass.equals(Object.class))) {
+            Field[] declaredFields = currentClass.getDeclaredFields();
+            List<Field> arrayToList = Arrays.asList(declaredFields);
+            fields.addAll(arrayToList);
+            currentClass = currentClass.getSuperclass();
+        }
         Collection<FieldMatcher> matcherCollection = classCache.get(classComparator);
         if (matcherCollection.isEmpty()) {
             synchronized (classCache) {
                 if (matcherCollection.isEmpty()) {
-                    for (Field declaredField : declaredFields)
+                    for (Field declaredField : fields)
                         try {
                             Field field = instance.getClass().getDeclaredField(declaredField.getName());
                             if (field.getType().equals(declaredField.getType())) {
@@ -61,11 +71,10 @@ public class ObjectHelper {
         return instance;
     }
 
-
-    public static  <T, B> Collection<T> copyOfCollection(Class<T> target, Collection<B> data) {
+    public static <T, B> Collection<T> copyOfCollection(Class<T> target, Collection<B> data) {
         if (CollectionUtils.isNotEmpty(data)) {
             List<T> ts = Lists.newLinkedList();
-            data.forEach(element->ts.add(copy(target,element)));
+            data.forEach(element -> ts.add(copy(target, element)));
             return ts;
         } else {
             return CollectionUtils.emptyCollection();
