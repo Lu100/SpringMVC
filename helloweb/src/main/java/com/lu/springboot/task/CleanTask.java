@@ -1,4 +1,4 @@
-package com.lu.threadpool.springboot.task;
+package com.lu.springboot.task;
 
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;

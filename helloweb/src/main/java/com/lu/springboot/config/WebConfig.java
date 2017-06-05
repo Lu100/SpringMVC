@@ -1,7 +1,7 @@
-package com.lu.threadpool.springboot.config;
+package com.lu.springboot.config;
 
+import com.lu.springboot.args.UserResolver;
 import com.lu.threadpool.spring.aop.TimeCounterAdvice;
-import com.lu.threadpool.springboot.args.UserResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -18,7 +18,6 @@ import java.util.List;
  *  除非完全的MVC控制，否則不要使用@EnableMvc注解
  * <b>Author:</b> Luyongjia
  * <b>Date:</b> 2017年03月08日  14:29
- * <b>Copyright:</b> Copyright ©2016 tempus.cn. All rights reserved.
  * <b>Changelog:</b>
  *   Ver   Date                             Author                Detail
  *   ----------------------------------------------------------------------
@@ -34,15 +33,9 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         super.addArgumentResolvers(argumentResolvers);
     }
 
-    @Override
-    public void configureViewResolvers(ViewResolverRegistry registry) {
-        InternalResourceViewResolver internalResourceViewResolver = new InternalResourceViewResolver("/WEB-INF/views/", ".jsp");
-        registry.viewResolver(internalResourceViewResolver);
-        super.configureViewResolvers(registry);
-    }
-
     @Bean
-    public TimeCounterAdvice timeCounterAdvice(){
+    public TimeCounterAdvice timeCounterAdvice() {
         return new TimeCounterAdvice();
     }
+
 }

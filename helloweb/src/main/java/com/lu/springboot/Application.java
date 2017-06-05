@@ -1,8 +1,10 @@
-package com.lu.threadpool.springboot;
+package com.lu.springboot;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.web.support.SpringBootServletInitializer;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * <pre>
@@ -11,7 +13,6 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
  *
  * <b>Author:</b> Luyongjia
  * <b>Date:</b> 2017年03月08日  11:12
- * <b>Copyright:</b> Copyright ©2016 tempus.cn. All rights reserved.
  * <b>Changelog:</b>
  *   Ver   Date                             Author                Detail
  *   ----------------------------------------------------------------------
@@ -20,10 +21,13 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
  * </pre>
  */
 @SpringBootApplication
-public class Application extends SpringBootServletInitializer {
-
+@EnableAutoConfiguration
+public class Application {
     public static void main(String[] args) throws Exception {
-        SpringApplication.run(Application.class, args);
+        new SpringApplicationBuilder().sources(Application.class).web(true).run(args);
     }
-
 }
+
+
+
+

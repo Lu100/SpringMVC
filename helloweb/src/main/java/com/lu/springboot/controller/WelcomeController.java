@@ -1,9 +1,10 @@
-package com.lu.threadpool.springboot.controller;
+package com.lu.springboot.controller;
 
+import com.lu.springboot.entity.User;
 import com.lu.threadpool.spring.annotation.TimeCounter;
-import com.lu.threadpool.springboot.entity.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -24,28 +25,26 @@ import java.util.*;
  *         new file.
  * </pre>
  */
-@RestController
+@Controller
 @RequestMapping("/")
 public class WelcomeController {
 
     @Value(value = "Hello World")
     private String message;
+
     @TimeCounter
     @RequestMapping("{view_name}")
     public ModelAndView modelAndView(@PathVariable("view_name") String view_name, ModelAndView modelAndView) {
         modelAndView.setViewName(view_name);
         return modelAndView;
     }
-    @TimeCounter
-    @RequestMapping("index")
-    public ResponseEntity welcome(Map<String, Object> model) {
-        return ResponseEntity.ok(message);
-    }
+
     @TimeCounter
     @RequestMapping("auto-insert")
     public ResponseEntity AutoInsert(User user) {
         return ResponseEntity.ok(user);
     }
+
     @TimeCounter
     @RequestMapping("accept-message")
     public ResponseEntity acceptMessage(@RequestHeader("accept") String accept, @RequestHeader("user-agent") String userAgent) {
@@ -54,6 +53,7 @@ public class WelcomeController {
         hashMap.put("user-agent", userAgent);
         return ResponseEntity.ok(hashMap);
     }
+
     @TimeCounter
     @RequestMapping("accept-array")
     public ResponseEntity acceptArray(@RequestParam("ids[]") List<String> ids, @RequestParam("names[]") List<String> names) {

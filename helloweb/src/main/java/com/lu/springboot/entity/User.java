@@ -1,4 +1,4 @@
-package com.lu.threadpool.springboot.entity;
+package com.lu.springboot.entity;
 
 public class User {
     private String name;

@@ -1,6 +1,6 @@
-package com.lu.threadpool.springboot.args;
+package com.lu.springboot.args;
 
-import com.lu.threadpool.springboot.entity.User;
+import com.lu.springboot.entity.User;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
